@@ -1,3 +1,5 @@
+using HPIAM.Application.Interfaces;
+using HPIAM.Application.Services;
 using HPIAM.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,13 +12,14 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-
         builder.Services.AddControllers();
         builder.Services.AddDbContext<DataContext>(options =>
         {
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
         builder.Services.AddCors();
+        
+        builder.Services.AddScoped<ITokenService, TokenService>();
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
