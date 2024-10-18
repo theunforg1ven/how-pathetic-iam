@@ -1,4 +1,6 @@
 ﻿using HPIAM.Application.DTOs.Auth;
+using HPIAM.Application.DTOs.UserData;
+using HPIAM.Application.Interfaces;
 using HPIAM.Domain.Entities;
 using HPIAM.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -11,14 +13,16 @@ namespace HPIAM.Core.Controllers;
 public class AccountController : BaseApiController
 {
     private readonly DataContext _context;
+    private readonly ITokenService _tokenService;
 
-    public AccountController(DataContext context)
+    public AccountController(DataContext context, ITokenService tokenService)
     {
         _context = context;
+        _tokenService = tokenService;
     }
 
     [HttpPost("register")] // api/account/register
-    public async Task<ActionResult<AppUser>> Register(RegisterDto registerDto)
+    public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
         if (await UserExists(registerDto.Username))
             return BadRequest("Such username is already exists!");
@@ -35,11 +39,15 @@ public class AccountController : BaseApiController
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        return user;
+        return new UserDto
+        {
+            Username = user.UserName,
+            AccessToken = _tokenService.CreateToken(user)
+        };
     }
 
     [HttpPost("login")] // api/account/login
-    public async Task<ActionResult<AppUser>> Login(LoginDto loginDto)
+    public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
         var user = await _context.Users
                            .FirstOrDefaultAsync(u => u.UserName == loginDto.Username.ToLower());
@@ -54,7 +62,11 @@ public class AccountController : BaseApiController
             if (computedHash[i] != user.PasswordHash[i])
                 return Unauthorized("Invalid password!");
 
-        return user;
+        return new UserDto
+        {
+            Username = user.UserName,
+            AccessToken = _tokenService.CreateToken(user)
+        };
 
     }
 

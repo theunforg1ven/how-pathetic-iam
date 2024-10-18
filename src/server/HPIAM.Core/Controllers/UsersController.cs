@@ -1,10 +1,12 @@
 ﻿using HPIAM.Domain.Entities;
 using HPIAM.Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HPIAM.Core.Controllers;
 
+//[Authorize] --- can override with "AllowAnonymous" if I want to make method more accessible 
 public class UsersController : BaseApiController
 {
     private readonly DataContext _context;
@@ -14,6 +16,7 @@ public class UsersController : BaseApiController
         _context = context;
     }
 
+    [AllowAnonymous]
     [HttpGet] // api/users
     public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers() 
     {
@@ -22,7 +25,8 @@ public class UsersController : BaseApiController
         return users;
     }
 
-    [HttpGet("{id}")] // api/users/id
+    [Authorize]
+    [HttpGet("{id:int}")] // api/users/id
     public async Task<ActionResult<AppUser>> GetUser(int id)
     {
         var user = await _context.Users.FindAsync(id);
