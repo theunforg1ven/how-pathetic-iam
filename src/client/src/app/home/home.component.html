@@ -1,0 +1,24 @@
+<div class="container mt-5">
+  <div style="text-align: center">
+    @if (!registerMode) {
+      <h1>Fren, you can reach your goals bro</h1>
+      <p class="lead">
+        Come out and play! All you need to do is to register and log in!
+      </p>
+      <div class="text-center">
+        <button class="btn btn-primary btn-lg me-2" (click)="registerToggle()">Register</button>
+        <button class="btn btn-secondary btn-lg me-2">More info here</button>
+      </div>
+    } @else {
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-4">
+            <app-register
+            (cancelRegister)="cancelRegisterMode($event)">
+          </app-register>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
