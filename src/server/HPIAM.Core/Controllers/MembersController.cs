@@ -1,14 +1,14 @@
 ﻿using HPIAM.Domain.Entities;
 using HPIAM.Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HPIAM.Core.Controllers;
 
-[ApiController]
-[Route("api/[controller]")] // localhost:5001/api/members
-public class MembersController(DataContext context) : ControllerBase
+public class MembersController(DataContext context) : BaseApiController // localhost:5001/api/members
 {
+
     [HttpGet]
     public async Task<ActionResult<IReadOnlyList<AppUser>>> GetMembers()
     {
@@ -16,6 +16,7 @@ public class MembersController(DataContext context) : ControllerBase
         return members;
     }
 
+    [Authorize]
     [HttpGet("{id}")] // localhost:5001/api/members/user-id
     public async Task<ActionResult<AppUser>> GetMember(string id)
     {
