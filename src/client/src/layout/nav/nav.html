@@ -1,24 +1,34 @@
 <header class="p-3 w-full fixed top-0 z-50 bg-linear-to-r from-primary to-secondary">
   <div class="flex align-middle items-center px-10 mx-auto gap-6">
-    <a class="flex items-center gap-3 max-h-16 text-black border-r-black border-r-2 pr-6">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        class="size-10"
+    <div class="text-black">
+      <a
+        routerLink="/"
+        routerLinkActive="text-neutral-content"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="flex items-center gap-3 max-h-16 border-r-black border-r-2 pr-6"
       >
-        <path
-          fill-rule="evenodd"
-          d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-2.625 6c-.54 0-.828.419-.936.634a1.96 1.96 0 0 0-.189.866c0 .298.059.605.189.866.108.215.395.634.936.634.54 0 .828-.419.936-.634.13-.26.189-.568.189-.866 0-.298-.059-.605-.189-.866-.108-.215-.395-.634-.936-.634Zm4.314.634c.108-.215.395-.634.936-.634.54 0 .828.419.936.634.13.26.189.568.189.866 0 .298-.059.605-.189.866-.108.215-.395.634-.936.634-.54 0-.828-.419-.936-.634a1.96 1.96 0 0 1-.189-.866c0-.298.059-.605.189-.866Zm2.023 6.828a.75.75 0 1 0-1.06-1.06 3.75 3.75 0 0 1-5.304 0 .75.75 0 0 0-1.06 1.06 5.25 5.25 0 0 0 7.424 0Z"
-          clip-rule="evenodd"
-        />
-      </svg>
-      <h3 class="text-2xl font-semibold">HPIAM</h3>
-    </a>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="size-9"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-2.625 6c-.54 0-.828.419-.936.634a1.96 1.96 0 0 0-.189.866c0 .298.059.605.189.866.108.215.395.634.936.634.54 0 .828-.419.936-.634.13-.26.189-.568.189-.866 0-.298-.059-.605-.189-.866-.108-.215-.395-.634-.936-.634Zm4.314.634c.108-.215.395-.634.936-.634.54 0 .828.419.936.634.13.26.189.568.189.866 0 .298-.059.605-.189.866-.108.215-.395.634-.936.634-.54 0-.828-.419-.936-.634a1.96 1.96 0 0 1-.189-.866c0-.298.059-.605.189-.866Zm2.023 6.828a.75.75 0 1 0-1.06-1.06 3.75 3.75 0 0 1-5.304 0 .75.75 0 0 0-1.06 1.06 5.25 5.25 0 0 0 7.424 0Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <h3 class="text-2xl font-semibold">HPIAM</h3>
+      </a>
+    </div>
+
     <nav class="flex gap-3 my-2 uppercase text-lg text-black">
-      <a>Matches</a>
-      <a>Lists</a>
-      <a>Messages</a>
+      @if(accountService.currentUser()) {
+      <a routerLink="/members" routerLinkActive="text-neutral-content">Matches</a>
+      <a routerLink="/lists" routerLinkActive="text-neutral-content">Lists</a>
+      <a routerLink="/messages" routerLinkActive="text-neutral-content">Messages</a>
+      }
     </nav>
     <div class="flex align-middle ml-auto gap-3">
       @if (accountService.currentUser(); as user){
