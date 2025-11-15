@@ -22,4 +22,10 @@
     <ProjectReference Include="..\HPIAM.Domain\HPIAM.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Data\UserSeedData.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
